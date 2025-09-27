@@ -7,9 +7,19 @@ export default function Navbar() {
   const pathname = usePathname();
 
   const navLinks = [
-    { href: '/', label: 'Home' },
+    { href: '/home', label: 'Home' },
     { href: '/map', label: 'Map' },
   ];
+
+  // Logout handler
+  async function handleLogout() {
+    try {
+      await fetch('/api/logout', { method: 'POST' });
+      window.location.href = '/auth'; // redirect to login page
+    } catch (err) {
+      console.error('Logout failed:', err);
+    }
+  }
 
   return (
     <nav className="w-full bg-gray-900 text-white px-6 py-4 shadow-md">
@@ -30,6 +40,14 @@ export default function Navbar() {
             </Link>
           ))}
         </div>
+
+        {/* Logout Button */}
+        <button
+          onClick={handleLogout}
+          className="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-800 transition-colors duration-200"
+        >
+          Logout
+        </button>
       </div>
     </nav>
   );
